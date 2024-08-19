@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดอันดับผู้เข้าชมฟุตบอล</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 50%;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>จัดอันดับผู้เข้าชมฟุตบอล</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>อันดับ</th>
+                <th>ทีม</th>
+                <th>จำนวนผู้เข้าชม</th>
+            </tr>
+        </thead>
+        <tbody id="rankingTable">
+            <!-- ข้อมูลจะถูกแสดงที่นี่ -->
+        </tbody>
+    </table>
+
+    <script>
+        // ฟังก์ชันโหลดข้อมูลจากไฟล์ text
+        async function loadTeamsData() {
+            try {
+                const response = await fetch('teams.txt'); // ไฟล์ text ที่เก็บไว้ในเซิร์ฟเวอร์
+                const data = await response.text();
+
+                // แปลงข้อมูลจากไฟล์ text เป็นรูปแบบอาร์เรย์ของออบเจ็กต์
+                const teams = data.trim().split("\n").map(line => {
+                    const [team, visitors] = line.split(",");
+                    return {
+                        team: team.trim(),
+                        visitors: parseInt(visitors.trim())
+                    };
+                });
+
+                // เรียงลำดับทีมตามจำนวนผู้เข้าชมจากมากไปหาน้อย
+                teams.sort((a, b) => b.visitors - a.visitors);
+
+                // แสดงข้อมูลในตาราง
+                const rankingTable = document.getElementById("rankingTable");
+                rankingTable.innerHTML = teams.map((team, index) => `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${team.team}</td>
+                        <td>${team.visitors.toLocaleString()}</td>
+                    </tr>
+                `).join("");
+            } catch (error) {
+                console.error('เกิดข้อผิดพลาดในการโหลดข้อมูล:', error);
+            }
+        }
+
+        // เรียกใช้ฟังก์ชันเมื่อตัวเพจถูกโหลด
+        window.onload = loadTeamsData;
+    </script>
+</body>
+</html>
