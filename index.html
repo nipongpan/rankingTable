@@ -5,18 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>จัดอันดับผู้เข้าชมฟุตบอล</title>
     <style>
+        html, body {
+            height: 100%; /* กำหนดความสูงของ html และ body ให้เต็มหน้าจอ */
+            margin: 0; /* ลบระยะขอบของ body */
+            padding: 0; /* ลบการเติมของ body */
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-image: url('BG.png'); /* เปลี่ยน 'BG.png' เป็นชื่อไฟล์พื้นหลังที่คุณใช้ */
+            background-size: cover; /* ปรับขนาดพื้นหลังให้เต็มหน้าจอ */
+            background-position: center; /* จัดตำแหน่งพื้นหลังให้อยู่ตรงกลาง */
+            background-attachment: fixed; /* ทำให้พื้นหลังติดกับหน้าต่าง */
             text-align: center;
             padding: 20px;
+            color: white; /* ปรับสีข้อความให้โดดเด่นบนพื้นหลัง */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* เพิ่มเงาตัวหนังสือเป็นสีดำทั่วทั้งเอกสาร */
+        }
+
+        h1 {
+            /* สามารถเพิ่มเงาตัวหนังสือเฉพาะสำหรับ <h1> ได้ที่นี่ถ้าต้องการ */
         }
 
         table {
             margin: 20px auto;
             border-collapse: collapse;
             width: 50%;
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.8); /* เพิ่มความโปร่งใสให้กับพื้นหลังของตาราง */
         }
 
         th, td {
@@ -50,7 +65,6 @@
     </table>
 
     <script>
-        // ฟังก์ชันโหลดข้อมูลจากไฟล์ text
         async function loadTeamsData() {
             try {
                 const response = await fetch('teams.txt'); // ไฟล์ text ที่เก็บไว้ในเซิร์ฟเวอร์
@@ -82,7 +96,6 @@
             }
         }
 
-        // เรียกใช้ฟังก์ชันเมื่อตัวเพจถูกโหลด
         window.onload = loadTeamsData;
     </script>
 </body>
